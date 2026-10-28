@@ -1,0 +1,79 @@
+{
+  "_hinweis": "Feste Termine für Quartalszahlen. Diese Einträge haben Vorrang vor der automatischen Recherche. Felder: datum (JJJJ-MM-TT), unternehmen, region (DE, US, EU), zeit (optional), hinweis (optional), bestaetigt (true/false). Vergangene Termine werden automatisch ausgeblendet.",
+  "termine": [
+    { "datum": "2026-10-28", "unternehmen": "Microsoft", "region": "US", "zeit": "nachbörslich", "bestaetigt": true },
+    { "datum": "2026-10-28", "unternehmen": "Alphabet", "region": "US", "zeit": "nachbörslich", "bestaetigt": true },
+    { "datum": "2026-10-29", "unternehmen": "Amazon", "region": "US", "zeit": "nachbörslich", "bestaetigt": true },
+
+    { "datum": "2026-11-02", "unternehmen": "Apple", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-02", "unternehmen": "Palantir", "region": "US", "bestaetigt": true },
+
+    { "datum": "2026-11-03", "unternehmen": "Fresenius Medical Care", "region": "DE", "zeit": "07:00", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Zalando", "region": "DE", "zeit": "07:00", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Bayer", "region": "DE", "zeit": "07:30", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Lufthansa", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Schaeffler", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Evonik", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Biontech", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Hugo Boss", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "AMD", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Pfizer", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Amgen", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-03", "unternehmen": "Booking Holdings", "region": "US", "bestaetigt": true },
+
+    { "datum": "2026-11-04", "unternehmen": "BMW", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Continental", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Fresenius", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Vonovia", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Scout24", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Heidelberg Materials", "region": "DE", "hinweis": "nur Umsatz", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Qualcomm", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Uber", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "McDonald's", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Kraft Heinz", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-04", "unternehmen": "Expedia", "region": "US", "bestaetigt": true },
+
+    { "datum": "2026-11-05", "unternehmen": "Rheinmetall", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "DHL", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Commerzbank", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Deutsche Telekom", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Siemens Healthineers", "region": "DE", "hinweis": "Jahreszahlen", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Hensoldt", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Renk", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Lanxess", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Evotec", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Nordex", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "HelloFresh", "region": "DE", "hinweis": "kein DAX", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Cigna", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "ConocoPhillips", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-05", "unternehmen": "Airbnb", "region": "US", "bestaetigt": true },
+
+    { "datum": "2026-11-06", "unternehmen": "Daimler Truck", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-06", "unternehmen": "Moderna", "region": "US", "bestaetigt": true },
+
+    { "datum": "2026-11-09", "unternehmen": "GEA Group", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-09", "unternehmen": "Hannover Rück", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-09", "unternehmen": "KKR", "region": "US", "bestaetigt": true },
+
+    { "datum": "2026-11-10", "unternehmen": "Infineon", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-10", "unternehmen": "Henkel", "region": "DE", "bestaetigt": true },
+
+    { "datum": "2026-11-11", "unternehmen": "Siemens Energy", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-11", "unternehmen": "E.ON", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-11", "unternehmen": "RWE", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-11", "unternehmen": "Brenntag", "region": "DE", "bestaetigt": true },
+
+    { "datum": "2026-11-12", "unternehmen": "Siemens", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-12", "unternehmen": "Allianz", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-12", "unternehmen": "Munich Re", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-12", "unternehmen": "Merck KGaA", "region": "DE", "bestaetigt": true },
+    { "datum": "2026-11-12", "unternehmen": "Applied Materials", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-12", "unternehmen": "Cisco", "region": "US", "hinweis": "Termin unklar, auch 11. oder 18.11. möglich", "bestaetigt": false },
+
+    { "datum": "2026-11-17", "unternehmen": "Disney", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-17", "unternehmen": "Home Depot", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-18", "unternehmen": "Lowe's", "region": "US", "bestaetigt": true },
+    { "datum": "2026-11-18", "unternehmen": "Nvidia", "region": "US", "hinweis": "evtl. erst 25.11.", "bestaetigt": false },
+    { "datum": "2026-11-19", "unternehmen": "Walmart", "region": "US", "bestaetigt": true }
+  ]
+}

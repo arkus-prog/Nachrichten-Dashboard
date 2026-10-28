@@ -1,0 +1,25 @@
+{
+  "_hinweis": "Quellen hinzufügen oder entfernen: jeweils name, url und category. Kategorien: maerkte, konjunktur, notenbanken, international, allgemein. Der erste Teil des Namens (vor dem Leerzeichen) gilt als Redaktion – zwei Feeds derselben Redaktion zählen bei der Themenerkennung nur einmal.",
+  "feeds": [
+    { "name": "Handelsblatt Finanzen", "url": "https://www.handelsblatt.com/contentexport/feed/finanzen", "category": "maerkte" },
+    { "name": "Handelsblatt Unternehmen", "url": "https://www.handelsblatt.com/contentexport/feed/unternehmen", "category": "maerkte" },
+    { "name": "Handelsblatt Top-Themen", "url": "https://www.handelsblatt.com/contentexport/feed/top-themen", "category": "konjunktur" },
+    { "name": "FAZ Finanzen", "url": "https://www.faz.net/rss/aktuell/finanzen/", "category": "maerkte" },
+    { "name": "manager magazin Finanzen", "url": "https://www.manager-magazin.de/finanzen/index.rss", "category": "maerkte" },
+    { "name": "manager magazin Unternehmen", "url": "https://www.manager-magazin.de/unternehmen/index.rss", "category": "maerkte" },
+    { "name": "WirtschaftsWoche Finanzen", "url": "https://www.wiwo.de/contentexport/feed/rss/finanzen", "category": "maerkte" },
+    { "name": "WirtschaftsWoche Schlagzeilen", "url": "https://www.wiwo.de/contentexport/feed/rss/schlagzeilen", "category": "konjunktur" },
+    { "name": "tagesschau Wirtschaft", "url": "https://www.tagesschau.de/wirtschaft/index~rss2.xml", "category": "konjunktur" },
+    { "name": "SPIEGEL Wirtschaft", "url": "https://www.spiegel.de/wirtschaft/index.rss", "category": "konjunktur" },
+    { "name": "ZEIT Wirtschaft", "url": "https://newsfeed.zeit.de/wirtschaft/index", "category": "konjunktur" },
+    { "name": "EZB", "url": "https://www.ecb.europa.eu/rss/press.html", "category": "notenbanken" },
+    { "name": "Federal Reserve", "url": "https://www.federalreserve.gov/feeds/press_all.xml", "category": "notenbanken" },
+    { "name": "CNBC Top News", "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114", "category": "international" },
+    { "name": "CNBC Earnings", "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839135", "category": "international" },
+    { "name": "CNBC Economy", "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=20910258", "category": "international" },
+    { "name": "MarketWatch", "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories", "category": "international" },
+    { "name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml", "category": "international" },
+    { "name": "Yahoo Finance", "url": "https://finance.yahoo.com/news/rssindex", "category": "international" },
+    { "name": "tagesschau", "url": "https://www.tagesschau.de/index~rss2.xml", "category": "allgemein" }
+  ]
+}

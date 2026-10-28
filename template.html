@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Nachrichtenlage</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #E9EDEB;
+  --surface: #FFFFFF;
+  --ink: #142235;
+  --muted: #5B6878;
+  --rule: #DCE1E5;
+  --hover: #F3F6F5;
+  --focus: #2F5D8C;
+  --warn: #C2410C;
+  --c-maerkte: #0E7C7B;
+  --c-konjunktur: #A86A12;
+  --c-notenbanken: #6B3FA0;
+  --c-international: #2F5D8C;
+  --c-allgemein: #6B7280;
+  --sans: "IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", Arial, sans-serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0B121A;
+    --surface: #131D28;
+    --ink: #E6EBF0;
+    --muted: #93A1B0;
+    --rule: #263443;
+    --hover: #1A2633;
+    --focus: #7FB0E6;
+    --warn: #F08A4B;
+    --c-maerkte: #3CC2BF;
+    --c-konjunktur: #E0A447;
+    --c-notenbanken: #B48AE6;
+    --c-international: #6FA3DC;
+    --c-allgemein: #A0AAB5;
+  }
+}
+*, *::before, *::after { box-sizing: inherit; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.35; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+button { font: inherit; color: inherit; }
+
+/* Raster: alles auf einen Bildschirm, Panels scrollen einzeln */
+.app {
+  height: 100%; display: grid; gap: 10px; padding: 10px 14px 12px;
+  grid-template-rows: auto minmax(0, 1fr) minmax(0, 1.2fr);
+}
+.row1 { display: grid; gap: 10px; min-height: 0; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.25fr) minmax(250px, 0.75fr); }
+.row2 { display: grid; gap: 10px; min-height: 0; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); }
+
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.panel > header { display: flex; align-items: baseline; gap: 10px; padding: 9px 12px 8px; border-bottom: 1px solid var(--rule); }
+.panel > header h2 { font-size: 15.5px; font-weight: 600; margin: 0; white-space: nowrap; }
+.panel > header .hn { margin-left: auto; font-size: 12.5px; color: var(--muted); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.panel .body { overflow-y: auto; flex: 1; min-height: 0; overscroll-behavior: contain; }
+.col > header { border-top: 3px solid var(--cat); }
+
+/* Kopfzeile */
+.top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.brand { display: flex; align-items: baseline; gap: 10px; margin-right: 6px; }
+.brand h1 { font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.01em; line-height: 1; }
+.brand span { color: var(--muted); font-size: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 8px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); font-size: 13.5px; }
+.chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cat); }
+.chip[aria-pressed="false"] { color: var(--muted); background: transparent; }
+.chip[aria-pressed="false"] .dot { background: transparent; box-shadow: inset 0 0 0 1.5px var(--cat); }
+.seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button { cursor: pointer; padding: 3px 9px; background: transparent; color: var(--muted); border: 0; border-right: 1px solid var(--rule); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.search { font: inherit; font-size: 13.5px; padding: 4px 9px; width: 160px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); }
+.stand { margin-left: auto; text-align: right; font-size: 13px; color: var(--muted); line-height: 1.3; }
+.stand strong { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.stand .newc { color: var(--ink); }
+.stand.old strong { color: var(--warn); }
+.statusbox { position: relative; display: inline-block; font-size: 13px; color: var(--muted); }
+.statusbox summary { list-style: none; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 3px; }
+.statusbox summary::-webkit-details-marker { display: none; }
+.statusbox summary { cursor: pointer; }
+.statusbox .bad { color: var(--warn); }
+.statusbox ul { position: absolute; right: 0; top: 100%; z-index: 5; margin: 4px 0 0; padding: 8px 12px 8px 26px; width: 340px; max-height: 50vh; overflow: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; text-align: left; }
+@media (max-width: 1500px) { .brand span { display: none; } }
+
+/* Themenvorschläge */
+.sugg { border-bottom: 1px solid var(--rule); }
+.sugg:last-child { border-bottom: 0; }
+.sugg summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 9px 12px; }
+.sugg summary::-webkit-details-marker { display: none; }
+.sugg summary:hover { background: var(--hover); }
+.sugg .fmt { font-size: 12.5px; color: var(--muted); grid-column: 1; }
+.sugg .fmt b { color: var(--ink); font-weight: 600; }
+.sugg h3 { grid-column: 1; font-size: 17.5px; font-weight: 700; line-height: 1.18; margin: 0; }
+.sugg .sub { grid-column: 1; font-family: var(--serif); font-size: 14.5px; line-height: 1.4; margin: 1px 0 0; }
+.sugg .copy { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+.sugg .more-info { padding: 0 12px 10px; font-size: 13.5px; color: var(--muted); }
+.sugg .more-info a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule); }
+.copy { cursor: pointer; white-space: nowrap; padding: 4px 9px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); font-size: 13px; }
+.copy:hover { border-color: var(--muted); }
+.copy.done { border-color: var(--c-maerkte); color: var(--c-maerkte); }
+.setup { padding: 12px; font-size: 14px; color: var(--muted); }
+.setup p { margin: 0 0 6px; }
+
+/* Wichtigste Meldungen */
+.top-item { display: grid; grid-template-columns: 52px 1fr; gap: 0 10px; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+.top-item:last-child { border-bottom: 0; }
+.top-item .meter { padding-top: 3px; }
+.top-item .blocks { display: flex; gap: 2px; }
+.top-item .blocks i { width: 7px; height: 13px; border-radius: 1px; background: var(--cat); }
+.top-item .lbl { font-size: 11.5px; color: var(--muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
+.top-item.ai { grid-template-columns: 4px 1fr; }
+.top-item .cat-bar { width: 4px; height: 100%; min-height: 28px; border-radius: 2px; background: var(--cat); }
+.top-item h3 { font-size: 15.5px; font-weight: 600; line-height: 1.25; margin: 0; }
+.top-item .sub { font-family: var(--serif); font-size: 13.5px; color: var(--muted); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.top-item .who { font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+
+/* Termine */
+.day { padding: 7px 12px 6px; border-bottom: 1px solid var(--rule); }
+.day:last-child { border-bottom: 0; }
+.day h3 { font-size: 13.5px; font-weight: 600; margin: 0 0 3px; }
+.day.today h3 { color: var(--c-maerkte); }
+.day ul { list-style: none; margin: 0; padding: 0; }
+.day li { display: grid; grid-template-columns: 22px 1fr auto; gap: 6px; font-size: 14px; padding: 1px 0; align-items: baseline; }
+.day .rg { font-size: 11px; color: var(--muted); }
+.day .tm { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.day .hint { color: var(--muted); font-size: 12px; }
+.day li.unsure .co { color: var(--muted); font-style: italic; }
+
+/* Spalten */
+.item { display: grid; grid-template-columns: 38px 1fr; gap: 0 8px; padding: 7px 11px; border-bottom: 1px solid var(--rule); }
+.item:last-child { border-bottom: 0; }
+.item time { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 1px; position: relative; }
+.item.new time { color: var(--ink); font-weight: 600; }
+.item.new time::before { content: ""; position: absolute; left: -8px; top: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--cat); }
+.item .t { font-size: 14.5px; font-weight: 500; line-height: 1.27; }
+.item .s { font-family: var(--serif); font-size: 13px; line-height: 1.4; color: var(--muted); margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.item .src { font-size: 12px; color: var(--muted); margin-top: 2px; }
+body.nosub .item .s, body.nosub .top-item .sub { display: none; }
+.empty { padding: 12px; color: var(--muted); font-size: 14px; }
+
+
+/* Kleinere Bildschirme: untereinander, Seite scrollt */
+@media (max-width: 1150px), (max-height: 620px) {
+  html, body { height: auto; }
+  .app { height: auto; grid-template-rows: none; }
+  .row1 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .row1 .cal { grid-column: 1 / -1; }
+  .row2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .panel { max-height: 75vh; }
+}
+@media (max-width: 720px) {
+  .row1 { grid-template-columns: 1fr; }
+  .stand { margin-left: 0; text-align: left; width: 100%; }
+  .search { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand"><h1>Nachrichtenlage</h1><span id="today"></span></div>
+    <div class="chips" id="chips" role="group" aria-label="Kategorien"></div>
+    <div class="seg" id="window" role="group" aria-label="Zeitraum"></div>
+    <div class="seg" role="group" aria-label="Sublines"><button id="subtoggle" type="button"></button></div>
+    <input class="search" id="q" type="search" placeholder="Stichwort, z. B. EZB oder Nvidia" aria-label="Stichwort filtern">
+    <div class="stand"><span id="stand"></span> <details class="statusbox" id="footer"></details></div>
+  </div>
+
+  <div class="row1">
+    <section class="panel" aria-labelledby="sugg-h">
+      <header><h2 id="sugg-h">Themenvorschläge</h2><span class="hn" id="sugg-note"></span></header>
+      <div class="body" id="sugg"></div>
+    </section>
+    <section class="panel" aria-labelledby="focus-h">
+      <header><h2 id="focus-h">Wichtigste Meldungen</h2><span class="hn" id="focus-note"></span></header>
+      <div class="body" id="focus"></div>
+    </section>
+    <section class="panel cal" aria-labelledby="cal-h">
+      <header><h2 id="cal-h">Quartalszahlen</h2><span class="hn" id="cal-note"></span></header>
+      <div class="body" id="cal"></div>
+    </section>
+  </div>
+
+  <div class="row2" id="cols"></div>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+
+const CATS = [
+  { key: "maerkte",       name: "Märkte & Unternehmen", short: "Märkte" },
+  { key: "konjunktur",    name: "Konjunktur & Politik", short: "Konjunktur" },
+  { key: "notenbanken",   name: "Notenbanken",          short: "Notenbanken" },
+  { key: "international", name: "International",        short: "International" },
+  { key: "allgemein",     name: "Weitere News",         short: "Weitere" }
+];
+const WINDOWS = [6, 12, 24, 36];
+const RELOAD_MIN = 15;
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("nl:" + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem("nl:" + k, JSON.stringify(v)); } catch (e) {} }
+};
+
+const state = {
+  cats: store.get("cats", CATS.map(c => c.key)).filter(k => CATS.some(c => c.key === k)),
+  hours: store.get("hours", 24),
+  sublines: store.get("sublines", true),
+  q: ""
+};
+if (!state.cats.length) state.cats = CATS.map(c => c.key);
+
+/* "Neu" = alles nach dem letzten Besuch. Ein Besuch endet nach 60 Minuten Pause,
+   damit das automatische Neuladen die Markierungen nicht löscht. */
+const prevSeen = store.get("lastSeenAt", null);
+let lastVisit = store.get("visitBase", null);
+if (!prevSeen || Date.now() - new Date(prevSeen) > 60 * 60000) { lastVisit = prevSeen; store.set("visitBase", lastVisit); }
+
+const TZ = "Europe/Berlin";
+const fmtTime = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit", timeZone: TZ });
+const fmtDay = new Intl.DateTimeFormat("de-DE", { weekday: "long", day: "numeric", month: "long", timeZone: TZ });
+const fmtShort = new Intl.DateTimeFormat("de-DE", { weekday: "short", hour: "2-digit", minute: "2-digit", timeZone: TZ });
+const fmtCalDay = new Intl.DateTimeFormat("de-DE", { weekday: "short", day: "numeric", month: "short" });
+const isoDay = d => new Intl.DateTimeFormat("sv-SE", { timeZone: TZ }).format(d);
+
+function el(tag, attrs, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "style") n.setAttribute("style", v);
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of kids.flat(Infinity)) if (c != null && c !== false) n.append(c);
+  return n;
+}
+const catColor = key => `var(--c-${key})`;
+const link = (href, text, extra) => href ? el("a", Object.assign({ href, target: "_blank", rel: "noopener" }, extra || {}), text) : text;
+
+function timeLabel(iso) {
+  if (!iso) return "–";
+  const d = new Date(iso);
+  return isoDay(d) === isoDay(new Date()) ? fmtTime.format(d) : fmtShort.format(d).replace(",", "");
+}
+const isNew = i => lastVisit && i.date && new Date(i.date) > new Date(lastVisit);
+
+function visible(item) {
+  if (!state.cats.includes(item.category)) return false;
+  if (item.date && Date.now() - new Date(item.date) > state.hours * 3600000) return false;
+  if (state.q) {
+    const hay = (item.title + " " + item.subline + " " + item.source).toLowerCase();
+    if (!state.q.split(/\s+/).every(w => hay.includes(w))) return false;
+  }
+  return true;
+}
+
+/* Kopfzeile */
+function renderTop() {
+  document.getElementById("today").textContent = fmtDay.format(new Date());
+  const st = document.getElementById("stand");
+  st.replaceChildren();
+  if (!DATA) { st.textContent = "Noch keine Daten"; return; }
+  const ageMin = (Date.now() - new Date(DATA.generated)) / 60000;
+  st.parentElement.classList.toggle("old", ageMin > 180);
+  const fresh = DATA.items.filter(i => visible(i) && isNew(i)).length;
+  st.append("Stand ", el("strong", {}, timeLabel(DATA.generated) + " Uhr"), el("br"),
+    ageMin > 180 ? "Daten älter als 3 Std., "
+      : lastVisit ? el("span", { class: "newc", title: "Seit deinem letzten Besuch" }, `${fresh} neu, `) : "");
+}
+
+function renderControls() {
+  document.getElementById("chips").replaceChildren(...CATS.map(c => el("button", {
+    class: "chip", type: "button", style: `--cat:${catColor(c.key)}`, "aria-pressed": String(state.cats.includes(c.key)),
+    onclick: () => {
+      state.cats = state.cats.includes(c.key) ? state.cats.filter(k => k !== c.key) : [...state.cats, c.key];
+      if (!state.cats.length) state.cats = CATS.map(x => x.key);
+      store.set("cats", state.cats); render();
+    }
+  }, el("span", { class: "dot" }), c.short)));
+  document.getElementById("window").replaceChildren(...WINDOWS.map(h => el("button", {
+    type: "button", "aria-pressed": String(state.hours === h),
+    onclick: () => { state.hours = h; store.set("hours", h); render(); }
+  }, h + " Std.")));
+  const t = document.getElementById("subtoggle");
+  t.textContent = "Sublines";
+  t.setAttribute("aria-pressed", String(state.sublines));
+  document.body.classList.toggle("nosub", !state.sublines);
+}
+
+/* Themenvorschläge */
+function renderSuggestions(byId) {
+  const box = document.getElementById("sugg");
+  const note = document.getElementById("sugg-note");
+  box.replaceChildren();
+  const ai = (DATA && DATA.ai) || {};
+  if (!ai.enabled) {
+    note.textContent = "";
+    box.append(el("div", { class: "setup" },
+      el("p", {}, "Themenvorschläge mit fertiger Überschrift schreibt Claude. Dafür braucht die Seite einen API-Schlüssel."),
+      el("p", {}, "Hinterlege ihn im Repository unter Settings, Secrets and variables, Actions als ANTHROPIC_API_KEY.")));
+    return;
+  }
+  note.textContent = ai.newsAt ? `Stand ${timeLabel(ai.newsAt)} Uhr, Fakten an der Quelle prüfen` : "";
+  const list = ai.suggestions || [];
+  if (!list.length) { box.append(el("p", { class: "empty" }, "Die ersten Vorschläge erscheinen nach der nächsten Aktualisierung.")); return; }
+  for (const v of list) {
+    const refs = (v.sources || []).map(id => byId[id]).filter(Boolean);
+    const btn = el("button", { class: "copy", type: "button", title: "Überschrift und Subline kopieren" }, "Kopieren");
+    btn.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); copyText(v.headline + "\n" + v.subline, btn); });
+    box.append(el("details", { class: "sugg" },
+      el("summary", {},
+        el("div", { class: "fmt" }, el("b", {}, v.format || "Post"), v.topic ? `, ${v.topic}` : ""),
+        el("h3", {}, v.headline),
+        v.subline ? el("p", { class: "sub" }, v.subline) : null,
+        btn),
+      el("div", { class: "more-info" },
+        v.why ? el("div", {}, v.why) : null,
+        refs.length ? el("div", {}, "Grundlage: ", refs.map((r, i) => [i ? ", " : "", link(r.link, r.source, { title: r.title })])) : null)));
+  }
+}
+
+function copyText(text, btn) {
+  const done = () => { btn.textContent = "Kopiert"; btn.classList.add("done"); setTimeout(() => { btn.textContent = "Kopieren"; btn.classList.remove("done"); }, 1800); };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, () => fallbackCopy(text, done));
+  else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done) {
+  const ta = el("textarea", { style: "position:fixed;opacity:0" });
+  ta.value = text; document.body.append(ta); ta.select();
+  try { document.execCommand("copy"); done(); } catch (e) {}
+  ta.remove();
+}
+
+/* Wichtigste Meldungen */
+function renderFocus(byId) {
+  const box = document.getElementById("focus");
+  const note = document.getElementById("focus-note");
+  box.replaceChildren();
+  if (!DATA) return;
+  const rows = [];
+  const picks = (DATA.ai && DATA.ai.top) || [];
+  if (picks.length) {
+    note.textContent = "Auswahl von Claude";
+    for (const p of picks) {
+      const it = byId[p.id];
+      if (!it || !visible(it)) continue;
+      rows.push(el("article", { class: "top-item ai", style: `--cat:${catColor(it.category)}`, title: it.title },
+        el("div", { class: "meter" }, el("div", { class: "cat-bar" })),
+        el("div", {},
+          el("h3", {}, link(it.link, p.title || it.title)),
+          (p.subline || it.subline) ? el("div", { class: "sub" }, p.subline || it.subline) : null,
+          el("div", { class: "who" }, `${it.source}, ${timeLabel(it.date)}`))));
+    }
+  } else {
+    note.textContent = "Balken = Zahl der berichtenden Quellen";
+    for (const t of DATA.topics || []) {
+      const lead = byId[t.lead];
+      const members = t.items.map(id => byId[id]).filter(Boolean);
+      if (!lead || !members.some(visible)) continue;
+      const others = t.sources.length > 3 ? `${t.sources.slice(0, 3).join(", ")} und ${t.sources.length - 3} weitere` : t.sources.join(", ");
+      rows.push(el("article", { class: "top-item", style: `--cat:${catColor(lead.category)}` },
+        el("div", { class: "meter" },
+          el("div", { class: "blocks", "aria-hidden": "true" }, Array.from({ length: Math.min(t.count, 6) }, () => el("i"))),
+          el("div", { class: "lbl" }, t.count + " Quellen")),
+        el("div", {},
+          el("h3", {}, link(lead.link, lead.title)),
+          lead.subline ? el("div", { class: "sub" }, lead.subline) : null,
+          el("div", { class: "who" }, others))));
+    }
+  }
+  if (!rows.length) box.append(el("p", { class: "empty" }, "Gerade greift kein Thema bei mehreren Quellen. Wähle einen längeren Zeitraum oder sieh in die Spalten unten."));
+  else box.append(...rows);
+}
+
+/* Quartalszahlen */
+function renderCalendar() {
+  const box = document.getElementById("cal");
+  const note = document.getElementById("cal-note");
+  box.replaceChildren();
+  const list = (DATA && DATA.termine) || [];
+  note.textContent = "14 Tage, kursiv = unbestätigt";
+  if (!list.length) { box.append(el("p", { class: "empty" }, "Keine Termine in den nächsten 14 Tagen. Neue Termine trägst du in termine.json ein.")); return; }
+  const todayIso = isoDay(new Date());
+  const tomorrowIso = isoDay(new Date(Date.now() + 86400000));
+  const days = {};
+  for (const t of list) (days[t.datum] = days[t.datum] || []).push(t);
+  for (const d of Object.keys(days).sort()) {
+    const label = d === todayIso ? "Heute" : d === tomorrowIso ? "Morgen" : fmtCalDay.format(new Date(d + "T12:00:00"));
+    box.append(el("div", { class: "day" + (d === todayIso ? " today" : "") },
+      el("h3", {}, label),
+      el("ul", {}, days[d].map(t => el("li", { class: t.bestaetigt ? null : "unsure" },
+        el("span", { class: "rg" }, t.region || ""),
+        el("span", {}, el("span", { class: "co" }, t.unternehmen), t.hinweis ? el("span", { class: "hint" }, ", " + t.hinweis) : null),
+        el("span", { class: "tm" }, t.zeit || ""))))));
+  }
+}
+
+/* Spalten */
+function renderCols() {
+  const cols = document.getElementById("cols");
+  cols.replaceChildren();
+  const active = CATS.filter(c => state.cats.includes(c.key));
+  cols.style.setProperty("--n", active.length);
+  for (const c of active) {
+    const list = DATA ? DATA.items.filter(i => i.category === c.key && visible(i)) : [];
+    const body = el("div", { class: "body" });
+    if (!list.length) body.append(el("p", { class: "empty" }, !DATA ? "Noch keine Daten." : state.q ? "Keine Treffer." : "Keine Meldungen in diesem Zeitraum."));
+    for (const i of list) body.append(el("div", { class: "item" + (isNew(i) ? " new" : "") },
+      el("time", { datetime: i.date || "", title: isNew(i) ? "Neu seit deinem letzten Besuch" : null }, timeLabel(i.date)),
+      el("div", {},
+        link(i.link, i.title, { class: "t" }),
+        i.subline ? el("div", { class: "s" }, i.subline) : null,
+        el("div", { class: "src" }, i.source))));
+    cols.append(el("section", { class: "panel col", style: `--cat:${catColor(c.key)}`, "aria-label": c.name },
+      el("header", {}, el("h2", {}, c.name), el("span", { class: "hn" }, String(list.length))),
+      body));
+  }
+}
+
+/* Quellenstatus */
+function renderFooter() {
+  const f = document.getElementById("footer");
+  f.replaceChildren();
+  if (!DATA) return;
+  const st = DATA.status || [];
+  const bad = st.filter(s => !s.ok);
+  const notes = DATA.notes || [];
+  f.append(
+    el("summary", { class: bad.length || notes.length ? "bad" : null }, `${st.length - bad.length}/${st.length} Quellen`),
+    el("ul", {},
+      notes.map(n => el("li", { class: "bad" }, n)),
+      st.map(s => el("li", { class: s.ok ? null : "bad" }, s.ok ? `${s.name}: ${s.count} Meldungen` : `${s.name}: nicht erreichbar (${s.error})`))));
+}
+
+function render() {
+  renderControls();
+  renderTop();
+  const byId = {};
+  if (DATA) for (const i of DATA.items) byId[i.id] = i;
+  renderSuggestions(byId);
+  renderFocus(byId);
+  renderCalendar();
+  renderCols();
+  renderFooter();
+}
+
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+document.getElementById("subtoggle").addEventListener("click", () => { state.sublines = !state.sublines; store.set("sublines", state.sublines); render(); });
+render();
+
+store.set("lastSeenAt", new Date().toISOString());
+setInterval(() => store.set("lastSeenAt", new Date().toISOString()), 5 * 60000);
+setInterval(renderTop, 60000);
+setTimeout(() => location.reload(), RELOAD_MIN * 60000);
+</script>
+</body>
+</html>
