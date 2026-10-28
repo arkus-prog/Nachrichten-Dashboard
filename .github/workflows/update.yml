@@ -1,0 +1,45 @@
+name: Nachrichtenlage aktualisieren
+
+on:
+  schedule:
+    # alle 30 Minuten zwischen 4 und 20 Uhr UTC (= ca. 5 bis 22 Uhr deutscher Zeit)
+    - cron: "*/30 4-20 * * *"
+  workflow_dispatch: {}   # erlaubt den Start per Knopfdruck im Reiter "Actions"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/configure-pages@v5
+        id: pages
+      - name: Nachrichten abrufen und Seite bauen
+        run: python build.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PAGES_URL: ${{ steps.pages.outputs.base_url }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
